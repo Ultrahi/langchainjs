@@ -1,5 +1,4 @@
 import { BaseLLMParams, LLM } from "./base.js";
-import { CallbackManagerForLLMRun } from "../callbacks/manager.js";
 
 /**
  * Interface for the AzureML API response.
@@ -135,8 +134,7 @@ export class AzureMLModel extends LLM implements AzureMLInput {
    */
   async _call(
     prompt: string,
-    modelArgs: Record<string, unknown>,
-    runManager?: CallbackManagerForLLMRun
+    modelArgs: Record<string, unknown>
   ): Promise<string> {
     const requestPayload = this.formatRequestPayload(prompt, modelArgs);
     const responsePayload = await this.call(requestPayload);
