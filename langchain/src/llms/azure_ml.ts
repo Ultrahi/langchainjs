@@ -32,7 +32,7 @@ export interface AzureMLInput {
  */
 export class AzureMLModel extends LLM implements AzureMLInput {
   _llmType() {
-    return "azureml";
+    return "azure_ml";
   }
 
   static lc_name() {
