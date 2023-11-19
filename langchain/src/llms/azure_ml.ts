@@ -34,7 +34,7 @@ export class AzureMLModel extends LLM implements AzureMLInput {
   _llmType() {
     return "azureml";
   }
-  
+
   static lc_name() {
     return "AzureMLModel";
   }
@@ -60,15 +60,28 @@ export class AzureMLModel extends LLM implements AzureMLInput {
     };
   }
 
-  endpointUrl?: string;
-  endpointApiKey?: string;
-  deploymentName?: string;
+  endpointUrl: string;
+  endpointApiKey: string;
+  deploymentName: string;
 
-  constructor(fields?: AzureMLInput & BaseLLMParams ) {
+  constructor(fields: AzureMLInput & BaseLLMParams) {
     super(fields ?? {});
-    this.endpointUrl = fields?.endpointUrl;
-    this.endpointApiKey = fields?.endpointApiKey;
-    this.deploymentName = fields?.deploymentName;
+
+    if (fields?.endpointUrl === undefined) {
+      throw new Error("No Azure ML endpointUrl found.");
+    }
+
+    if (fields?.endpointApiKey === undefined) {
+      throw new Error("No Azure ML endpointApiKey found.");
+    }
+
+    if (fields?.deploymentName === undefined) {
+      throw new Error("No Azure ML endpointApiKey");
+    }
+
+    this.endpointUrl = fields.endpointUrl;
+    this.endpointApiKey = fields.endpointApiKey;
+    this.deploymentName = fields.deploymentName;
   }
 
   /**
@@ -107,12 +120,6 @@ export class AzureMLModel extends LLM implements AzureMLInput {
    * @returns A Promise that resolves to the response payload.
    */
   async call(requestPayload: string): Promise<string> {
-    if (this.endpointUrl === undefined) {
-        throw new Error(
-            `No Azure ML endpointUrl found.`
-        );
-    }
-    
     const response = await fetch(this.endpointUrl, {
       method: "POST",
       headers: {
