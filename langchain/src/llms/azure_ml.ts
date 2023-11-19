@@ -76,7 +76,7 @@ export class AzureMLModel extends LLM implements AzureMLInput {
     }
 
     if (fields?.deploymentName === undefined) {
-      throw new Error("No Azure ML endpointApiKey");
+      throw new Error("No Azure ML deploymentName found.");
     }
 
     this.endpointUrl = fields.endpointUrl;
