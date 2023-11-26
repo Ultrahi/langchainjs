@@ -132,6 +132,7 @@ export class AzureMLModel extends LLM implements AzureMLInput {
         const error = new Error(
           `Azure ML LLM call failed with status code ${response.status}`
         );
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (error as any).response = response;
         throw error;
     }
