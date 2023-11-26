@@ -128,6 +128,13 @@ export class AzureMLModel extends LLM implements AzureMLInput {
       },
       body: requestPayload,
     });
+    if (!response.ok) {
+        const error = new Error(
+          `Azure ML LLM call failed with status code ${response.status}`
+        );
+        (error as any).response = response;
+        throw error;
+    }
     return response.text();
   }
 
