@@ -1,5 +1,8 @@
 import { test, expect } from "@jest/globals";
-import { AzureMLChatOnlineEndpoint, LlamaContentFormatter } from "../azure_ml.js";
+import {
+  AzureMLChatOnlineEndpoint,
+  LlamaContentFormatter,
+} from "../azure_ml.js";
 
 test("Test AzureML LLama Call", async () => {
   const prompt = "Hi Llama!";

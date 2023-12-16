@@ -5,7 +5,10 @@ when creating the AzureMLOnlineEndpoint to call upon later. Must import a Conten
 or create your own using the ContentFormatter interface.
 
 ```typescript
-import { AzureMLOnlineEndpoint, LlamaContentFormatter } from "langchain/llms/azure_ml";
+import {
+  AzureMLOnlineEndpoint,
+  LlamaContentFormatter,
+} from "langchain/llms/azure_ml";
 
 const model = new AzureMLOnlineEndpoint({
   endpointUrl: "YOUR_ENDPOINT_URL",

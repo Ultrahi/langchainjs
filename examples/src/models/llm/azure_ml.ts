@@ -1,4 +1,7 @@
-import { AzureMLOnlineEndpoint, LlamaContentFormatter } from "langchain/llms/azure_ml";
+import {
+  AzureMLOnlineEndpoint,
+  LlamaContentFormatter,
+} from "langchain/llms/azure_ml";
 
 const model = new AzureMLOnlineEndpoint({
   endpointUrl: "YOUR_ENDPOINT_URL", // Or set as process.env.AZURE_ML_ENDPOINTURL
