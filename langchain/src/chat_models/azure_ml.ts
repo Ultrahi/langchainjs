@@ -69,7 +69,7 @@ export interface AzureMLChatParams extends BaseChatModelParams {
 }
 
 /**
- * Class that represents the chat model. It extends the SimpleChatModel class and implements the AzureMLChatInput interface.
+ * Class that represents the chat model. It extends the SimpleChatModel class and implements the AzureMLChatParams interface.
  */
 export class AzureMLChatOnlineEndpoint
   extends SimpleChatModel
@@ -93,7 +93,7 @@ export class AzureMLChatOnlineEndpoint
 
   httpClient: AzureMLHttpClient;
 
-  constructor(fields: AzureMLChatParams) {
+  constructor(fields?: AzureMLChatParams) {
     super(fields ?? {});
     if (!fields?.endpointUrl && !getEnvironmentVariable("AZUREML_URL")) {
       throw new Error("No Azure ML Url found.");
@@ -101,24 +101,23 @@ export class AzureMLChatOnlineEndpoint
     if (!fields?.endpointApiKey && !getEnvironmentVariable("AZUREML_API_KEY")) {
       throw new Error("No Azure ML ApiKey found.");
     }
-    if (!fields?.contentFormatter) {
-      throw new Error("No Content Formatter provided.");
-    }
 
     this.endpointUrl =
-      fields.endpointUrl || `${getEnvironmentVariable("AZUREML_URL")}`;
+      fields?.endpointUrl ?? `${getEnvironmentVariable("AZUREML_URL")}`;
     this.endpointApiKey =
-      fields.endpointApiKey || `${getEnvironmentVariable("AZUREML_API_KEY")}`;
+      fields?.endpointApiKey ?? `${getEnvironmentVariable("AZUREML_API_KEY")}`;
     this.httpClient = new AzureMLHttpClient(
       this.endpointUrl,
       this.endpointApiKey
     );
-    this.contentFormatter = fields.contentFormatter;
+    this.contentFormatter = fields?.contentFormatter
+      ? fields?.contentFormatter
+      : new LlamaContentFormatter();
     this.modelArgs = fields?.modelArgs;
   }
 
   get _identifying_params() {
-    const modelKwargs = this.modelArgs || {};
+    const modelKwargs = this.modelArgs ?? {};
     return {
       ...super._identifyingParams,
       modelKwargs,
